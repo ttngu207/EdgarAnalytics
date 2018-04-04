@@ -61,8 +61,7 @@ def remove_expired_session(IPs, StartDateTime, numDocRequested, LastRequestTime,
         return new_IPs, new_StartDateTime, new_numDocRequested, new_LastRequestTime
 
 def generate_ending_report(ip, startDateTime, lastRequestTime, numDocRequested):
-        sessionDuration = lastRequestTime - startDateTime
-        if sessionDuration == 0: sessionDuration = 1
+        sessionDuration = lastRequestTime - startDateTime + datetime.timedelta(seconds=1)
         endingReport = ip + ',' + \
                         startDateTime.strftime(__datetimeFormat__) + ',' + \
                         lastRequestTime.strftime(__datetimeFormat__) + ',' + \

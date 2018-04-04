@@ -56,8 +56,7 @@ def remove_expired_session(IPs, StartDateTime, numDocRequested, LastRequestTime,
         return new_IPs, new_StartDateTime, new_numDocRequested, new_LastRequestTime
 
 def generate_ending_report(ip, startDateTime, lastRequestTime, numDocRequested):
-        sessionDuration = lastRequestTime - startDateTime
-        if sessionDuration == 0: sessionDuration = 1
+        sessionDuration = lastRequestTime - startDateTime + datetime.timedelta(seconds=1)
         endingReport = ip + ',' + \
                         startDateTime.strftime(__datetimeFormat__) + ',' + \
                         lastRequestTime.strftime(__datetimeFormat__) + ',' + \
@@ -94,7 +93,8 @@ for dataLine in dataReader:
     '---- Very first line being stream?? ----'
     if IPs.size == 0:
         IPs, StartDateTime, numDocRequested, LastRequestTime = create_new_session(IPs, StartDateTime, numDocRequested, LastRequestTime, ip, current_datetime)
-    
+        continue
+        
     '---- Check if this IP is new or part of the previously opened session ----'
     intersectMask = np.in1d( IPs, np.array(ip) )
     intersectIndex = np.arange(IPs.size)[intersectMask]
