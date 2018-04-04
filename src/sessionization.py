@@ -57,6 +57,7 @@ def remove_expired_session(IPs, StartDateTime, numDocRequested, LastRequestTime,
 
 def generate_ending_report(ip, startDateTime, lastRequestTime, numDocRequested):
         sessionDuration = lastRequestTime - startDateTime
+        if sessionDuration == 0: sessionDuration = 1
         endingReport = ip + ',' + \
                         startDateTime.strftime(__datetimeFormat__) + ',' + \
                         lastRequestTime.strftime(__datetimeFormat__) + ',' + \
@@ -115,19 +116,17 @@ for dataLine in dataReader:
         '-- If expire, generate the session report --'
         if expirestatus:
             endingReport = generate_ending_report(IPs[sessIndex], StartDateTime[sessIndex], LastRequestTime[sessIndex], numDocRequested[sessIndex])
-            #print(endingReport)
             f_output.write('%s\n' % endingReport)   
     
     '---- Remove expired sessions out of the list of current opened sessions ----'
     IPs, StartDateTime, numDocRequested, LastRequestTime = remove_expired_session(IPs, StartDateTime, numDocRequested, LastRequestTime, expiredSessionsMask)
     
     '====== End processing ======'
-    count = count+1    
-    #if count == 2000: break    
 
 '====== End of stream, set all current sessions to expire ======'
 for k in list(range(0,IPs.size)):
     endingReport = generate_ending_report(IPs[k], StartDateTime[k], LastRequestTime[k], numDocRequested[k])
+    f_output.write('%s\n' % endingReport)   
 
 del IPs, StartDateTime, numDocRequested, LastRequestTime 
 
