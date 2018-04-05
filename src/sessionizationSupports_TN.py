@@ -2,6 +2,9 @@
 """
 Created on Sun Apr  1 17:42:41 2018
 
+DON'T USE THIS ONE - PLEASE USE "sessionization.py"
+(please ignore it)
+
 A simple module to assist SEC sessionization procedure
 Creating 2 classes
     - OpenedSession

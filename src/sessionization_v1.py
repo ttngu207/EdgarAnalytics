@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
+Created on Sun Apr  1 17:42:41 2018
 
-This is a temporary script file.
+DON'T USE THIS ONE - PLEASE USE "sessionization.py"
+THIS SCRIPT IS MEANT FOR TESTING OUT IDEAS ONLY (please ignore it)
+
+Solving the Insight DataEngineering challenge 
+SEC logfile sessionization
+
+
+@author: TN
 """
 
 '=============== Import packages ============='
@@ -58,7 +65,7 @@ for dataLine in dataReader:
     '---- End processing ----'
     
     count = count+1    
-    #if count == 200000: break    
+    if count == 200000: break    
 
 '---- End of stream, set all current sessions to expire ----'
 allOpenedSessions.all_sessions_expire()
@@ -70,11 +77,18 @@ print('Run time: %f second' % (t_end - t_start))
     
 '=============== R&D ================='
 
-CSVdata = pd.read_csv(SEClog_dir+SEC_logfile_name, nrows=2000)
+CSVdata = pd.read_csv(SEClog_dir+SEC_logfile_name, nrows=20000)
 CSVdata = CSVdata[['ip','date','time','cik','accession']]
 CSVdata.tail()
 
+D = pd.DataFrame(CSVdata['ip'].unique(),dtype=str)
+D1 = D
+D2 = D.astype('category')
+D3 = np.array(D,dtype=str)
 
+print(sys.getsizeof(D1))
+print(sys.getsizeof(D2))
+print(sys.getsizeof(D3))
 
 
 
